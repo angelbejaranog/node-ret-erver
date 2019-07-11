@@ -3,8 +3,9 @@ const bcrypt = require("bcrypt");
 const _ = require("underscore");
 const app = express();
 const Usuario = require("../models/uurio.js");
+const {verificaToken, VerificaAdmin_Role} = require("../middleware/atenticacion");
 
-app.get("/uurio", function(req, res) {
+app.get("/uurio",verificaToken, function(req, res) {
   let dede = req.query.dede || 0;
   dede = Number(dede);
   let limite = req.query.limite || 5;
@@ -31,7 +32,7 @@ app.get("/uurio", function(req, res) {
     });
 });
 
-app.post("/uurio", function(req, res) {
+app.post("/uurio", [verificaToken, VerificaAdmin_Role], function(req, res) {
   let body = req.body;
 
   let uurio = new Usuario({
@@ -56,7 +57,7 @@ app.post("/uurio", function(req, res) {
   });
 });
 
-app.put("/uurio/:id", function(req, res) {
+app.put("/uurio/:id", [verificaToken, VerificaAdmin_Role], function(req, res) {
   let id = req.params.id;
   let body = _.pick(req.body, ["name", "email", "img", "role", "state"]);
 
@@ -80,7 +81,7 @@ app.put("/uurio/:id", function(req, res) {
   );
 });
 
-app.delete("/uurio/:id", function(req, res) {
+app.delete("/uurio/:id", [verificaToken, VerificaAdmin_Role], function(req, res) {
   let id = req.params.id;
   let change = {
     state: false

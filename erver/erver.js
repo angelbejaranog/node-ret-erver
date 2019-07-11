@@ -12,15 +12,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(require("./route/uurio.js")); //import todo5 lo5 5ervicio5 get, po5t, put, delete
+//import todo5 lo5 5ervicio5 get, po5t, put, delete
+app.use(require("./route/index.js"));
 
-// mongoose.connect('mongodb://localhost:27017/cfe', (err, res) => {
-
-// 	if(err)
-// 		throw err;
-// 	console.log('Be de dto conectd');
-
-// });
+//Base de Datos
 
 mongoose.connect(
   process.env.URLDB,
